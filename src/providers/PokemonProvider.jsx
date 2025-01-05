@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import PokemonContext from "../context/context";
 
 function PokemonProvider({children}) {
-    const [pokemon, setPokemon] = useState([]);
+    const [allPokemon, setAllPokemon] = useState([]);
   return (
-    <PokemonContext.Provider value={{ pokemon, setPokemon }}>
+    <PokemonContext.Provider value={{ allPokemon, setAllPokemon }}>
         {children}
     </PokemonContext.Provider>
   )

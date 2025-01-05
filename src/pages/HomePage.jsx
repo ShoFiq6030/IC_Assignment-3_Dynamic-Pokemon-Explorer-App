@@ -1,24 +1,64 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import Sort from "../components/HomePage/Sort";
 import Filter from "../components/HomePage/Filter";
 import SearchSvg from "./../Svgs/SearchSvg";
-import PokemonCard from "../components/HomePage/PokemonCard";
+
+import GrideContainer from "../components/common/GrideContainer";
+import axios from "axios";
 
 function HomePage() {
-  const handlePrevious = () => {
-    console.log("Previous page clicked");
+  const [allPokemon, setAllPokemon] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await axios.get(
+          `https://pokeapi.co/api/v2/pokemon?limit=50`
+        );
+        console.log(response);
+        setAllPokemon(response?.data?.results);
+        setFilteredPokemons(response?.data?.results);
+        console.log(allPokemon);
+        setLoading(false);
+      } catch (error) {
+        setError(error?.message);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [setAllPokemon]);
+
+  const handleSearch = (event) => {
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = allPokemon.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(term)
+    );
+    setFilteredPokemons(filtered);
+    setPage(1);
+    setLimit(12);
+    setSortOrder("asc");
   };
 
-  const handleNext = () => {
-    console.log("Next page clicked");
-  };
+  if (loading) return <p> Loading....</p>;
+  if (error) return <p className="text-red-500 text-center">{error}</p>;
+
   return (
-    <div className="h-screen">
-      <div className=" p-4 m-10 ">
+    <div className="min-h-screen bg-slate-400">
+      <div className=" p-4  ">
         <h1 className="text-3xl md:text-5xl font-bold text-center custom-gradient md:pt-10 pt-5">
           Welcome to the Pokémon World!
         </h1>
-        <p className="text-center md:text-2xl pt-10">
+        <p className="text-center md:text-2xl pt-10 text-black">
           This is the home page for the Pokémon app.
         </p>
       </div>
@@ -34,42 +74,20 @@ function HomePage() {
               type="text"
               placeholder="Search"
               className="px-2 py-1  w-36 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={searchTerm}
+              onChange={handleSearch}
             />
             <div className="absolute ml-28 mt-2">
               <SearchSvg />
             </div>
           </div>
         </div>
-
-        <div className="bg-slate-400 rounded p-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            <div className="bg-green-500 p-4 text-white rounded">1</div>
-            <div className=" p-4 text-white rounded">
-              <PokemonCard />
-            </div>
-            <div className="bg-green-500 p-4 text-white rounded">2</div>
-            <div className="bg-green-500 p-4 text-white rounded">3</div>
-            <div className="bg-green-500 p-4 text-white rounded">4</div>
-            <div className="bg-green-500 p-4 text-white rounded">5</div>
-            <div className="bg-green-500 p-4 text-white rounded">6</div>
-          </div>
-
-          {/* Pagination Section */}
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={handlePrevious}
-              className="px-3 py-2  border border-white text-white rounded hover:custom-gradient focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNext}
-              className="px-3 py-2 mx-2 border border-white text-white rounded hover:custom-gradient focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              Next
-            </button>
-          </div>
-        </div>
+        <GrideContainer
+          pokemons={filteredPokemons}
+          page={page}
+          limit={limit}
+          setPage={setPage}
+        />
       </div>
     </div>
   );
