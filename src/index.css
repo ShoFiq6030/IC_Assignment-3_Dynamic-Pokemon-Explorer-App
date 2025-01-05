@@ -22,4 +22,7 @@
   .hoverLink {
     @apply hover:text-violet-200;
   }
+  .custom-gradient{
+    @apply bg-gradient-to-r from-violet-700 to-indigo-700 text-transparent bg-clip-text;
+  }
 }
