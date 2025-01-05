@@ -2,6 +2,7 @@ import React from "react";
 import Sort from "../components/HomePage/Sort";
 import Filter from "../components/HomePage/Filter";
 import SearchSvg from "./../Svgs/SearchSvg";
+import PokemonCard from "../components/HomePage/PokemonCard";
 
 function HomePage() {
   const handlePrevious = () => {
@@ -40,9 +41,12 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="bg-slate-400 rounded p-10" >
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="bg-slate-400 rounded p-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             <div className="bg-green-500 p-4 text-white rounded">1</div>
+            <div className=" p-4 text-white rounded">
+              <PokemonCard />
+            </div>
             <div className="bg-green-500 p-4 text-white rounded">2</div>
             <div className="bg-green-500 p-4 text-white rounded">3</div>
             <div className="bg-green-500 p-4 text-white rounded">4</div>
