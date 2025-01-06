@@ -41,7 +41,7 @@ function PokemonCard({ pokemon }) {
   
   const handleDetails = () => {
     // Navigate to the pokemon details page
-    navigate(`/details/${pokemon.name}`)
+    navigate(`/pokemon/${pokemon.name}`)
   };
   
 
