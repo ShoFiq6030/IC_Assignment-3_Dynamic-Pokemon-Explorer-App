@@ -5,6 +5,7 @@ import SearchSvg from "./../Svgs/SearchSvg";
 
 import GrideContainer from "../components/common/GrideContainer";
 import axios from "axios";
+import { usePokemon } from "../hooks/usePokemon";
 
 function HomePage() {
   const [allPokemon, setAllPokemon] = useState([]);
@@ -15,6 +16,7 @@ function HomePage() {
   const [limit, setLimit] = useState(12);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { favoritePokemon, setFavoritePokemon } = usePokemon();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,8 +27,17 @@ function HomePage() {
           `https://pokeapi.co/api/v2/pokemon?limit=50`
         );
         console.log(response);
-        setAllPokemon(response?.data?.results);
-        setFilteredPokemons(response?.data?.results);
+        const results = response?.data?.results;
+        console.log(results);
+        const a = results?.map((item) => {
+          const isFavorite = favoritePokemon?.some(
+            (fav) => fav.name === item.name
+          );
+          return { ...item, isFavorite };
+        });
+        console.log(a);
+        setAllPokemon(a);
+        setFilteredPokemons(a);
         console.log(allPokemon);
         setLoading(false);
       } catch (error) {

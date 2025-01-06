@@ -1,6 +1,7 @@
 import React from "react";
 import PokemonCard from "../components/HomePage/PokemonCard";
 import GrideContainer from "../components/common/GrideContainer";
+import { usePokemon } from "../hooks/usePokemon";
 
 function FavoritesPage() {
   const handlePrevious = () => {
@@ -10,9 +11,10 @@ function FavoritesPage() {
   const handleNext = () => {
     console.log("Next page clicked");
   };
+  const {favoritePokemon} = usePokemon()
   return (
     <div className="min-h-screen">
-      <GrideContainer/>
+      <GrideContainer pokemons={favoritePokemon}/>
     </div>
   );
 }

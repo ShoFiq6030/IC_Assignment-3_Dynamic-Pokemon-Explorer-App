@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FavoritesSvg from '../Svgs/FavoritesSvg'
+import { useParams } from 'react-router-dom'
+
+import { axios } from 'axios';
 
 function PokemonPage() {
+  const pName=useParams()
+  useEffect(()=>{
+    const fetchPokemonData = async()=>{
+      
+
+    }
+
+  },[])
+
+
   return (
     <div>
 

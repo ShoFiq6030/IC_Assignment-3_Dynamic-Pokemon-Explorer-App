@@ -1,7 +1,8 @@
 import React from "react";
 import PokemonCard from "../HomePage/PokemonCard";
 
-function GrideContainer({ pokemons, page, limit, setPage }) {
+function GrideContainer({ pokemons, page=1, limit=50, setPage }) {
+  console.log(pokemons)
   const totalPages = Math.ceil(pokemons?.length / limit);
   const startIndex = (page - 1) * limit;
   const currentPokemons = pokemons?.slice(startIndex, startIndex + limit);
@@ -18,7 +19,7 @@ function GrideContainer({ pokemons, page, limit, setPage }) {
     <div className="bg-slate-500 rounded p-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {currentPokemons?.map((pokemon, index) => (
-          <div key={index} className="p-4 text-white rounded">
+          <div key={pokemon.name} className="p-4 text-white rounded">
             <PokemonCard pokemon={pokemon} />
           </div>
         ))}
