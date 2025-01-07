@@ -26,19 +26,19 @@ function HomePage() {
         const response = await axios.get(
           `https://pokeapi.co/api/v2/pokemon?limit=50`
         );
-        console.log(response);
+        // console.log(response);
         const results = response?.data?.results;
-        console.log(results);
+        // console.log(results);
         const a = results?.map((item) => {
           const isFavorite = favoritePokemon?.some(
             (fav) => fav.name === item.name
           );
           return { ...item, isFavorite };
         });
-        console.log(a);
+        // console.log(a);
         setAllPokemon(a);
         setFilteredPokemons(a);
-        console.log(allPokemon);
+        // console.log(allPokemon);
         setLoading(false);
       } catch (error) {
         setError(error?.message);
@@ -59,6 +59,19 @@ function HomePage() {
     setLimit(12);
     setSortOrder("asc");
   };
+  const handleSortClick = (order) => {
+    setSortOrder(order);
+    console.log(order)
+    
+    const sorted = filteredPokemons.sort((a, b) => {
+      if (order === "asc") {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+    setFilteredPokemons(sorted);
+  }
 
   if (loading) return <p> Loading....</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
@@ -66,25 +79,25 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-slate-400">
       <div className=" p-4  ">
-        <h1 className="text-3xl md:text-5xl font-bold text-center custom-gradient md:pt-10 pt-5">
+        <h1 className="text-3xl md:text-5xl font-bold text-center custom-gradient md:pt-10 pt-5 font-borel">
           Welcome to the Pokémon World!
         </h1>
-        <p className="text-center md:text-2xl pt-10 text-black">
+        <p className="text-center md:text-2xl pt-10 text-black font-borel">
           This is the home page for the Pokémon app.
         </p>
       </div>
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex gap-4 text-black">
-            <Sort />
-            <Filter />
+            <Sort handleSortClick={handleSortClick} sortOrder={sortOrder} />
+            {/* <Filter /> */}
           </div>
 
           <div className="flex">
             <input
               type="text"
               placeholder="Search"
-              className="px-2 py-1  w-36 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="px-2 py-1  w-36 border text-black border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={searchTerm}
               onChange={handleSearch}
             />

@@ -9,37 +9,52 @@ function PokemonPage() {
   const [pokemonData, setPokemonData] = useState();
   const [img, setImg] = useState();
   const { name } = useParams();
-  console.log(name);
+  // console.log(name);
   useEffect(() => {
-    setLoading(true);
     const fetchPokemonData = async () => {
-      const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
-      );
-      console.log(response.data);
-      setPokemonData(response?.data);
-      setImg(response?.data.sprites.other.dream_world.front_default);
-    };
-    fetchPokemonData();
-    setLoading(false);
-  }, []);
+      setLoading(true); // Start loading
+      try {
+        // Simulate delay
+        // await new Promise((resolve) => setTimeout(resolve, 500));
 
-  if (loading) {
-    return <h2>Loading...</h2>; // display loading state here  //
-  }
+        // Fetch data
+        const response = await axios.get(
+          `https://pokeapi.co/api/v2/pokemon/${name}`
+        );
+
+        // Set data and image
+        setPokemonData(response?.data);
+        setImg(response?.data.sprites.other.dream_world.front_default);
+      } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of success or failure
+      }
+    };
+
+    fetchPokemonData();
+  }, [name]); // Add `name` as a dependency
 
   return (
     <div className=" min-h-screen bg-slate-400 m-auto text-center text-xl ">
-      <h2 className="text-3xl md:text-6xl pt-10 text-indigo-100 ">Pokemon Details</h2>
+      <h2 className="text-3xl md:text-6xl pt-10 text-indigo-100 font-borel ">
+        Pokemon Details
+      </h2>
       <hr />
-      <h3 className="text-2xl md:text-4xl custom-gradient font-bold pt-6">
+      <h3 className="text-2xl md:text-4xl custom-gradient font-bold p-6">
         {name}
       </h3>
-      <FavoritesSvg />
-      <div></div>
-      <div className="w-60 h-60  m-auto border mb-10">
-        <img src={img} alt={name} className="w-full h-full object-contain" />
-      </div>
+      {loading ? (
+        <div className="w-60 h-60  m-auto border mb-10">
+          <div className="flex items-center justify-center mt-10 ">
+            <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      ) : (
+        <div className="w-60 h-60  m-auto border mb-10">
+          <img src={img} alt={name} className="w-full h-full object-contain" />
+        </div>
+      )}
 
       <hr />
 

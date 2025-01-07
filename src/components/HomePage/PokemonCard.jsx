@@ -55,7 +55,7 @@ function PokemonCard({ pokemon }) {
 
   return (
     <div>
-      <div className="flex relative flex-col items-center justify-center p-4 rounded-md bg-white shadow-md ">
+      <div className="flex relative flex-col items-center justify-center p-4 rounded-md bg-gray-300 shadow-md ">
         <div className="w-30 h-36 overflow-hidden ">
           {loading ? (
             <div className="flex items-center justify-center mt-10 ">
@@ -70,16 +70,16 @@ function PokemonCard({ pokemon }) {
           )}
         </div>
 
-        <h2 className="mt-1 pt-5 text-xl md:text-3xl custom-gradient font-bold">
-          {pokemon.name}
+        <h2 className="mt-1 pt-5 text-xl md:text-3xl custom-gradient font-bold capitalize">
+        {pokemon.name}
         </h2>
         <div className="flex">
-          <button onClick={handleDetails} className=" border-2 border-fuchsia-500 rounded bg-slate-800 hover:bg-slate-500  text-white  text-xs pt-2 pl-2 pr-2">
+          <button onClick={handleDetails} className=" border-2 border-deepDark rounded text-gray-800 hover:bg-slate-600 hover:text-white    text-xs mt-2 p-1">
             View Details
           </button>
           {}
           <div
-            className=" ml-4 cursor-pointer  "
+            className=" ml-4 mt-3 cursor-pointer  "
             onClick={() => handleFavoriteClick(pokemon)}
           >
             {isFavorite ? <RedFavoriteSvg /> : <FavoritesSvg />}
